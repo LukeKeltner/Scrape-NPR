@@ -20,10 +20,17 @@ router.get("/scrape", function(req, res)
 		$("article.has-image").each(function(i, element)
 		{
 			var title = $(element).find("div").find("h1").text()
-			var img = $(element).find("img").attr("src")
 			var info = $(element).find("p.teaser").text()
+			var img = $(element).find("img").attr("src")
 			var link = $(element).find("div.imagewrap").find("a").attr("href")
-			console.log(link)
+			
+			var article = 
+			{
+				title: title,
+				info: info,
+				img: img,
+				link: link
+			}
 		})
 	})
 })
