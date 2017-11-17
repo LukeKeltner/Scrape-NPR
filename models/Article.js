@@ -6,25 +6,33 @@ var ArticleSchema = new Schema(
 	title:
 	{
 		type: String,
-		require: "Title is required"
+		required: "Title is required",
+		unique: true
 	},
 
 	info:
 	{
 		type: String,
-		require: "Info is required"
+		required: "Info is required"
 	},
 
 	img:
 	{
 		type: String,
-		require: "Img is required"
+		required: "Img is required"
 	},
 
 	link:
 	{
 		type: String,
-		require: "Link is required"
+		required: "Link is required"
+	},
+
+	date:
+	{
+		type: Date,
+		default: Date.now,
+		required: true
 	},
 
 	comment:

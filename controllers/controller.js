@@ -14,22 +14,25 @@ mongoose.connect("mongodb://localhost/nprScrapeTest",
 
 router.get("/", function(req, res)
 {
-	console.log("---------------------------------------------")
 
-	db.Article.find({}).populate("comment").then(function(articles)
+	db.Article.find({}).sort("-date").populate("comment").then(function(articles)
 	{
-		console.log(articles[0])
-
-		var comments = articles[0].comment
-
-		console.log(comments)
-		var data = 
+		if(articles.length !== 0)
 		{
-			article: articles,
-			comment: comments
+			var comments = articles.comment
+			var data = 
+			{
+				article: articles,
+				comment: comments
+			}
+
+			res.render("index", data);
 		}
 
-		res.render("index", data);
+		else
+		{
+			res.render("index");
+		}
 		
 	}).catch(function(err)
 	{
@@ -39,6 +42,8 @@ router.get("/", function(req, res)
 
 router.get("/scrape", function(req, res)
 {
+	var newArticles = 0;
+
 	request("https://www.npr.org/", function(err, request, html)
 	{
 		if(err){throw err}
@@ -62,23 +67,22 @@ router.get("/scrape", function(req, res)
 
 			db.Article.create(article).then(function(result)
 			{
-				console.log("Article Added!")
+				newArticles = newArticles + 1
 
 			}).catch(function(err)
 			{
-				res.json(err)
+				res.json(err);
 			})
 		})
-	})
 
-	res.end()
+		newArticles = ""+newArticles
+		console.log(newArticles)
+		res.send(newArticles)
+	})
 })
 
 router.post("/addcomment", function(req, res)
 {
-	console.log(req.body.id)
-	console.log(req.body.message)
-
 	var comment = 
 	{
 		message: req.body.message,
@@ -108,12 +112,10 @@ router.delete("/deletecomment/:id", function(req, res)
 		{	
 			if(err){throw err}
 			var comments = found2.comment
-			console.log(comments)
 			for (var i=0; i<comments.length; i++)
 			{
 				if (id == comments[i])
 				{
-					console.log("DELETE COMMENT "+i)
 					comments.splice(i, 1);
 					break;
 				}

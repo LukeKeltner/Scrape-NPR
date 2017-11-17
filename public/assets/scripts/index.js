@@ -1,18 +1,23 @@
-console.log("Hello world!")
-
 $('#scrape').on("click", function(event)
 {
+	$('#scraped').fadeIn()
 	$.ajax(
 	{
 		url: '/scrape',
 		type: 'GET'
 	}).then(function(result)
 	{
-		console.log("done!")
+		console.log(result)
+		$(".found-container").html('<p class="found">'+result+' new article(s) found!</p>')
 
 		setTimeout(function()
 		{
-			window.location.reload()
+			$('#scraped').fadeOut()
+
+			setTimeout(function()
+			{
+				window.location.reload()
+			}, 1000)
 		}, 1000)
 	})
 })
@@ -35,17 +40,14 @@ $(".add").on("click", function(event)
 		data: data
 	}).then(function(result)
 	{
-		setTimeout(function()
-		{
-			window.location.reload()
-		}, 1000)		
+
+		window.location.reload()
 	})
 })
 
 $(".delete").on("click", function(event)
 {
 	var id = $(this).attr("id")
-	console.log(id)
 
 	$.ajax(
 	{
@@ -53,10 +55,6 @@ $(".delete").on("click", function(event)
 		type: "DELETE",
 	}).then(function(result)
 	{
-		console.log(result)
-		setTimeout(function()
-		{
-			window.location.reload()
-		}, 1000)
+		window.location.reload()
 	})
 })
