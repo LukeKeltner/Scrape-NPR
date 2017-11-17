@@ -9,6 +9,50 @@ $('#scrape').on("click", function(event)
 	}).then(function(result)
 	{
 		console.log("done!")
-		location.reload();
+
+		setTimeout(function()
+		{
+			window.location.reload()
+		}, 1000)
+	})
+})
+
+$(".add").on("click", function(event)
+{
+	var id = $(this).attr("id")
+	var message = $(this).parent().parent().find("#comment").val()
+
+	var data = 
+	{
+		id: id,
+		message: message
+	}
+
+	$.ajax(
+	{
+		url: "/addcomment",
+		type: "POST",
+		data: data
+	}).then(function(result)
+	{
+		setTimeout(function()
+		{
+			window.location.reload()
+		}, 1000)		
+	})
+})
+
+$(".delete").on("click", function(event)
+{
+	var id = $(this).attr("id")
+	console.log(id)
+
+	$.ajax(
+	{
+		url: "/deletecomment/"+id,
+		type: "DELETE",
+	}).then(function(result)
+	{
+		console.log(result)
 	})
 })

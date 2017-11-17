@@ -18,7 +18,24 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		<div class="card-footer">
+			<h6>Comments</h6>
+		</div>
+		{{#each comment}}
+		<div class="card-footer">
+    		{{message}}
+    		<button type="button" class="btn btn-danger float-right delete" id="{{_id}}">Delete</button>
+  		</div>
+  		{{/each}}
+ 		<div class="card-footer">
+		    <div class="input-group">
+			    <input type="text" class="form-control" placeholder="What are you thinking?" aria-label="What are you thinking?" id="comment">
+			    <span class="input-group-btn">
+			    	<button class="btn btn-success add" type="button" id="{{_id}}">Add Comment!</button>
+			    </span>
+		    </div>
+		</div>
+  	</div>
 	{{/each}}
 </div>
 

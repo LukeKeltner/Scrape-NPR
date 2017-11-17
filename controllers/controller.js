@@ -14,15 +14,22 @@ mongoose.connect("mongodb://localhost/nprScrapeTest",
 
 router.get("/", function(req, res)
 {
-	db.Article.find().then(function(articles)
+	console.log("---------------------------------------------")
+
+	db.Article.find({}).populate("comment").then(function(articles)
 	{
+		console.log(articles[0])
+
+		var comments = articles[0].comment
+
+		console.log(comments)
 		var data = 
 		{
-			article: articles
+			article: articles,
+			comment: comments
 		}
 
-		console.log(articles)
-		res.render("updatearticles", data);
+		res.render("index", data);
 		
 	}).catch(function(err)
 	{
@@ -64,7 +71,36 @@ router.get("/scrape", function(req, res)
 		})
 	})
 
-	res.render("index")
+	res.end()
+})
+
+router.post("/addcomment", function(req, res)
+{
+	console.log(req.body.id)
+	console.log(req.body.message)
+
+	var comment = 
+	{
+		message: req.body.message,
+		article: req.body.id
+	}
+
+	db.Comment.create(comment).then(function(dbComment)
+	{
+		db.Article.findOneAndUpdate({"_id": req.body.id}, {$push:{"comment": dbComment._id}}, function(err, done)
+		{
+			if(err){throw err}
+			res.send(done)
+		})
+	})
+})
+
+router.delete("/deletecomment/:id", function(req, res)
+{
+	var id = req.params.id
+	console.log(id)
+
+	
 })
 
 module.exports = router;
