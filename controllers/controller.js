@@ -98,9 +98,34 @@ router.post("/addcomment", function(req, res)
 router.delete("/deletecomment/:id", function(req, res)
 {
 	var id = req.params.id
-	console.log(id)
 
-	
+	db.Comment.find({"_id": id}, function(err, found)
+	{
+		if(err){throw err}
+		var articleid = found[0].article
+
+		db.Article.findOne({"_id": articleid}, function(err, found2)
+		{	
+			if(err){throw err}
+			var comments = found2.comment
+			console.log(comments)
+			for (var i=0; i<comments.length; i++)
+			{
+				if (id == comments[i])
+				{
+					console.log("DELETE COMMENT "+i)
+					comments.splice(i, 1);
+					break;
+				}
+			}
+
+			db.Article.findOneAndUpdate({"_id": articleid}, {$set:{"comment": comments}}, function(err, done)
+			{
+				if(err){throw err}
+				res.send(done)
+			})
+		})
+	})
 })
 
 module.exports = router;

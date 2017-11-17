@@ -54,5 +54,9 @@ $(".delete").on("click", function(event)
 	}).then(function(result)
 	{
 		console.log(result)
+		setTimeout(function()
+		{
+			window.location.reload()
+		}, 1000)
 	})
 })
