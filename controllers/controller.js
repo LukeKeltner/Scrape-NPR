@@ -23,7 +23,7 @@ router.get("/", function(req, res)
 
 		console.log(articles)
 		res.render("updatearticles", data);
-
+		
 	}).catch(function(err)
 	{
 		res.json(err)
