@@ -1,8 +1,16 @@
 var express = require('express');
 var cheerio = require("cheerio");
 var request = require("request");
+var mongoose = require("mongoose");
+var db = require("../models");
 
 var router = express.Router();
+
+mongoose.Promise = Promise;
+mongoose.connect("mongodb://localhost/nprScrapeTest",
+{
+	useMongoClient: true
+});
 
 router.get("/", function(req, res)
 {
@@ -31,6 +39,14 @@ router.get("/scrape", function(req, res)
 				img: img,
 				link: link
 			}
+
+			db.Article.create(article).then(function(result)
+			{
+				res.send(result)
+			}).catch(function(err)
+			{
+				res.json(err)
+			})
 		})
 	})
 })
