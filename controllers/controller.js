@@ -14,7 +14,20 @@ mongoose.connect("mongodb://localhost/nprScrapeTest",
 
 router.get("/", function(req, res)
 {
-	res.render("index");
+	db.Article.find().then(function(articles)
+	{
+		var data = 
+		{
+			article: articles
+		}
+
+		console.log(articles)
+		res.render("updatearticles", data);
+
+	}).catch(function(err)
+	{
+		res.json(err)
+	})
 })
 
 router.get("/scrape", function(req, res)
@@ -42,13 +55,16 @@ router.get("/scrape", function(req, res)
 
 			db.Article.create(article).then(function(result)
 			{
-				res.send(result)
+				console.log("Article Added!")
+
 			}).catch(function(err)
 			{
 				res.json(err)
 			})
 		})
 	})
+
+	res.render("index")
 })
 
 module.exports = router;
