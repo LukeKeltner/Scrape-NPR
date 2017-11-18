@@ -49,6 +49,7 @@ router.get("/scrape", function(req, res)
 		if(err){throw err}
 
 		var $ = cheerio.load(html)
+		var articleArray = []
 
 		$("article.has-image").each(function(i, element)
 		{
@@ -65,22 +66,35 @@ router.get("/scrape", function(req, res)
 				link: link
 			}
 
-			db.Article.create(article).then(function(result)
+			articleArray.push(article)
+		});
+
+		db.Article.collection.insert(articleArray).then(function(result)
+		{
+			res.send("6")
+
+		}).catch(function(err)
+		{
+			res.json(err)
+		})
+/*			db.Article.create(article).then(function(result)
 			{
-				console.log("adding an article!!!!!!!!!!!!!")
+				console.log("Added Article")
 				newArticles = newArticles + 1
+				console.log("Amount of Articles Added: "+newArticles)
 
 			}).catch(function(err)
 			{
 				res.json(err);
 			})
-		})
 
-		console.log("The total of new articles!")
+			console.log("Do you see this after each Added Article?")*/
+
+/*		console.log("The total of new articles!")
 		newArticles = ""+newArticles
 		console.log(newArticles)
 		res.send(newArticles)
-		console.log("can you see this?")
+		console.log("can you see this?")*/
 	})
 })
 

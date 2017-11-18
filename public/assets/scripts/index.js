@@ -8,7 +8,7 @@ $('#scrape').on("click", function(event)
 	}).then(function(result)
 	{
 		console.log(result)
-/*		$(".found-container").html('<p class="found">'+result+' new article(s) found!</p>')
+		$(".found-container").html('<p class="found">'+result+' new article(s) found!</p>')
 
 		setTimeout(function()
 		{
@@ -16,11 +16,9 @@ $('#scrape').on("click", function(event)
 
 			setTimeout(function()
 			{
-				window.location.reload()
+				//window.location.reload()
 			}, 500)
-		}, 500)*/
-
-		window.location.reload()
+		}, 500)
 	})
 })
 
