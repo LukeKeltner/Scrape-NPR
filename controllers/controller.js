@@ -67,6 +67,7 @@ router.get("/scrape", function(req, res)
 
 			db.Article.create(article).then(function(result)
 			{
+				console.log("adding an article!!!!!!!!!!!!!")
 				newArticles = newArticles + 1
 
 			}).catch(function(err)
@@ -75,9 +76,11 @@ router.get("/scrape", function(req, res)
 			})
 		})
 
+		console.log("The total of new articles!")
 		newArticles = ""+newArticles
 		console.log(newArticles)
 		res.send(newArticles)
+		console.log("can you see this?")
 	})
 })
 
