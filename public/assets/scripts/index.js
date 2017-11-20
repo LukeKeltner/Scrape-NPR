@@ -1,3 +1,10 @@
+$(function()
+{
+    $('[data-toggle="popover"]').popover({
+        placement : 'left',
+        trigger : 'hover'
+    });
+});
 $('#scrape').on("click", function(event)
 {
 	$('#scraped').fadeIn()
@@ -9,6 +16,7 @@ $('#scrape').on("click", function(event)
 	{
 		var newArticles = 0;
 		var foundArticles = result.newPotentialArticles
+		console.log("Found Articles: "+foundArticles)
 
 		if (result.error === 0)
 		{
@@ -17,6 +25,7 @@ $('#scrape').on("click", function(event)
 
 		else
 		{
+			console.log(result)
 			var errors = result.error.writeErrors.length
 			var newArticles = foundArticles - errors;
 		}

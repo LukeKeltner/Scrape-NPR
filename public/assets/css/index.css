@@ -2,7 +2,7 @@ body
 {
 	overflow-x: hidden;
 	padding-top: 20px;
-	background-color:#56514a;
+	background-color:#a59b8c;
 	margin-bottom:20px;
 }
 
@@ -65,4 +65,9 @@ h1
 #sentiment
 {
 	margin-right:20px;
+}
+
+#get-all
+{
+	margin-top: 20px;
 }

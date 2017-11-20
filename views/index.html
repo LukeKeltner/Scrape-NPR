@@ -24,7 +24,7 @@
 		<div class="card-footer">
     		{{message}}
     		<button type="button" class="btn btn-danger float-right delete" id="{{_id}}">Delete</button>
-    		<div id="sentiment" class="float-right">sentiment: {{sentiment}}</div>
+    		<div id="sentiment" class="float-right" data-toggle="popover" data-content="How positive or negative a comment is.  Obtained by sentiment - npm">sentiment: {{sentiment}}</div>
   		</div>
   		{{/each}}
  		<div class="card-footer">

@@ -7,8 +7,10 @@ var db = require("../models");
 
 var router = express.Router();
 
+var MONGODB_URI = process.env."mongodb://heroku_0jnvsk8d:6mfl9e1qmk2dgakdqlh3jljhr2@ds111336.mlab.com:11336/heroku_0jnvsk8d" || "mongodb://localhost/mongoHeadlines";
+
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/nprScrapeTest",
+mongoose.connect(MONGODB_URI,
 {
 	useMongoClient: true
 });
@@ -20,40 +22,18 @@ router.get("/", function(req, res)
 	{
 		if(articles.length !== 0)
 		{
-			var articlesGrabbed = articles
-			console.log(articlesGrabbed[0])
-
-			for (var i=0; i<articlesGrabbed.length; i++)
+			for (var i=0; i<articles.length; i++)
 			{
-
-				for (var j=0; j<articlesGrabbed[i].comment.length; j++)
+				for (var j=0; j<articles[i].comment.length; j++)
 				{
-					console.log(i)
-					articlesGrabbed[i].comment[j].sentiment = sentiment(articlesGrabbed[i].comment[j].message).score
-					articlesGrabbed[i].comment[j].test = "Hey there!"
+					articles[i].comment[j].sentiment = sentiment(articles[i].comment[j].message).comparative.toFixed(2)
 				}
 			}
-			articlesGrabbed[0].testfield = "Hey whats up!?";
-
-			console.log(articlesGrabbed[0])
-
-			console.log("HI!")
 
 			var data = 
 			{
-				article: articlesGrabbed,
+				article: articles,
 			}
-
-			var obj = 
-			{
-				name: "Luke"
-			}
-
-			console.log(obj.name)
-
-			obj.sex = true;
-
-			console.log(obj)
 
 			res.render("index", data);
 		}
@@ -100,8 +80,26 @@ router.get("/scrape", function(req, res)
 			articleArray.push(article)
 		});
 
+		console.log(articleArray.length)
+
+		//There are some subtleties with mongoose's "required" field in the schema which is letting documents with "undefined" fields that are required to be accepted.  
+		//This tries and accounts for that.
+		for (var i=0; i<articleArray.length; i++)
+		{
+			if (articleArray[i].title === undefined || articleArray[i].info === undefined || articleArray[i].img === undefined || articleArray[i].link === undefined)
+			{
+				console.log("Deleting article: "+articleArray[i].title)
+				articleArray.splice(i,1);
+				newPotentialArticles = newPotentialArticles - 1;
+			}
+		}
+
+		console.log(articleArray.length)
+
 		db.Article.collection.insert(articleArray).then(function(result)
 		{
+			console.log("added articles: ")
+			console.log(result.ops.length)
 			var data = 
 			{
 				error: 0,
