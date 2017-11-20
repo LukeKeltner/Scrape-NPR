@@ -9,8 +9,9 @@ var router = express.Router();
 
 //var MONGODB_URI = process.env."mongodb://heroku_0jnvsk8d:6mfl9e1qmk2dgakdqlh3jljhr2@ds111336.mlab.com:11336/heroku_0jnvsk8d" || "mongodb://localhost/mongoHeadlines";
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://heroku_0jnvsk8d:6mfl9e1qmk2dgakdqlh3jljhr2@ds111336.mlab.com:11336/heroku_0jnvsk8d",
+mongoose.connect(MONGODB_URI,
 {
 	useMongoClient: true
 });
