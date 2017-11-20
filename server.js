@@ -15,5 +15,5 @@ app.set("view engine", "html");
 app.use("/", routes);
 
 app.listen(port, function() {
-  console.log("App running on port " + PORT + "!");
+  console.log("App running on port " + port + "!");
 });
