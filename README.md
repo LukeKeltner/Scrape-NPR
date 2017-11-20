@@ -1,4 +1,4 @@
-# mongodb-news
+# Scrape NPR
 This web app demonstrates web scraping and data storage using MongoDB, a noSQL style databae.
 ## Features
 * Scrape NPR for new articles that are not already in the database and display them on the screen with a link to the article.
