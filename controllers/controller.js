@@ -2,6 +2,7 @@ var express = require('express');
 var cheerio = require("cheerio");
 var request = require("request");
 var mongoose = require("mongoose");
+var sentiment = require('sentiment');
 var db = require("../models");
 
 var router = express.Router();
@@ -15,16 +16,44 @@ mongoose.connect("mongodb://localhost/nprScrapeTest",
 router.get("/", function(req, res)
 {
 
-	db.Article.find({}).sort("-date").populate("comment").then(function(articles)
+	db.Article.find({}).sort("-_id").populate("comment").then(function(articles)
 	{
 		if(articles.length !== 0)
 		{
-			var comments = articles.comment
+			var articlesGrabbed = articles
+			console.log(articlesGrabbed[0])
+
+			for (var i=0; i<articlesGrabbed.length; i++)
+			{
+
+				for (var j=0; j<articlesGrabbed[i].comment.length; j++)
+				{
+					console.log(i)
+					articlesGrabbed[i].comment[j].sentiment = sentiment(articlesGrabbed[i].comment[j].message).score
+					articlesGrabbed[i].comment[j].test = "Hey there!"
+				}
+			}
+			articlesGrabbed[0].testfield = "Hey whats up!?";
+
+			console.log(articlesGrabbed[0])
+
+			console.log("HI!")
+
 			var data = 
 			{
-				article: articles,
-				comment: comments
+				article: articlesGrabbed,
 			}
+
+			var obj = 
+			{
+				name: "Luke"
+			}
+
+			console.log(obj.name)
+
+			obj.sex = true;
+
+			console.log(obj)
 
 			res.render("index", data);
 		}
@@ -51,6 +80,8 @@ router.get("/scrape", function(req, res)
 		var $ = cheerio.load(html)
 		var articleArray = []
 
+		var newPotentialArticles = ""+$("article.has-image").length
+
 		$("article.has-image").each(function(i, element)
 		{
 			var title = $(element).find("div").find("h1").text()
@@ -71,30 +102,24 @@ router.get("/scrape", function(req, res)
 
 		db.Article.collection.insert(articleArray).then(function(result)
 		{
-			res.send("6")
+			var data = 
+			{
+				error: 0,
+				newPotentialArticles: newPotentialArticles
+			}
+
+			res.send(data)
 
 		}).catch(function(err)
 		{
-			res.json(err)
+			var data = 
+			{
+				error: err,
+				newPotentialArticles: newPotentialArticles
+			}
+
+			res.send(data)
 		})
-/*			db.Article.create(article).then(function(result)
-			{
-				console.log("Added Article")
-				newArticles = newArticles + 1
-				console.log("Amount of Articles Added: "+newArticles)
-
-			}).catch(function(err)
-			{
-				res.json(err);
-			})
-
-			console.log("Do you see this after each Added Article?")*/
-
-/*		console.log("The total of new articles!")
-		newArticles = ""+newArticles
-		console.log(newArticles)
-		res.send(newArticles)
-		console.log("can you see this?")*/
 	})
 })
 

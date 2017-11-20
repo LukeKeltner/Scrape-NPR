@@ -7,8 +7,21 @@ $('#scrape').on("click", function(event)
 		type: 'GET'
 	}).then(function(result)
 	{
-		console.log(result)
-		$(".found-container").html('<p class="found">'+result+' new article(s) found!</p>')
+		var newArticles = 0;
+		var foundArticles = result.newPotentialArticles
+
+		if (result.error === 0)
+		{
+			newArticles = foundArticles;
+		}
+
+		else
+		{
+			var errors = result.error.writeErrors.length
+			var newArticles = foundArticles - errors;
+		}
+
+		$(".found-container").html('<p class="found">'+newArticles+' new article(s) found!</p>')
 
 		setTimeout(function()
 		{
@@ -16,7 +29,7 @@ $('#scrape').on("click", function(event)
 
 			setTimeout(function()
 			{
-				//window.location.reload()
+				window.location.reload()
 			}, 500)
 		}, 500)
 	})

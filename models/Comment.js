@@ -5,6 +5,8 @@ var CommentSchema = new Schema(
 {
 	message: String,
 
+	sentiment: String,
+
 	article:
 	{
 		type: Schema.Types.ObjectId,

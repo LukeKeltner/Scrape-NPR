@@ -1,7 +1,6 @@
 <link rel="stylesheet" type="text/css" href="assets/css/index.css">
 
 <div class="container">
-	<button type="button" class="btn btn-danger" id="scrape">Scrape for new articles from NPR!</button>
 
 	{{#each article}}
 	<div class="card">
@@ -9,7 +8,7 @@
 			<div class="row">
 				<div class="col-md-8">
 					<h4 class="card-title">{{title}}</h4>
-					<h6 class="card-subtitle mb-2 text-muted">Scraped on: {{date}}</h6>
+					<h6 class="card-subtitle mb-2 text-muted">Last scraped on: {{date}}</h6>
 					<p class="card-text">{{info}}</p>
 					<a href={{link}} class="btn btn-primary" target="_blank">Read more!</a>
 				</div>
@@ -25,6 +24,7 @@
 		<div class="card-footer">
     		{{message}}
     		<button type="button" class="btn btn-danger float-right delete" id="{{_id}}">Delete</button>
+    		<div id="sentiment" class="float-right">sentiment: {{sentiment}}</div>
   		</div>
   		{{/each}}
  		<div class="card-footer">
