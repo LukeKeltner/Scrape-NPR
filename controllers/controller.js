@@ -7,10 +7,10 @@ var db = require("../models");
 
 var router = express.Router();
 
-var MONGODB_URI = process.env."mongodb://heroku_0jnvsk8d:6mfl9e1qmk2dgakdqlh3jljhr2@ds111336.mlab.com:11336/heroku_0jnvsk8d";
+//var MONGODB_URI = process.env."mongodb://heroku_0jnvsk8d:6mfl9e1qmk2dgakdqlh3jljhr2@ds111336.mlab.com:11336/heroku_0jnvsk8d" || "mongodb://localhost/mongoHeadlines";
 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI,
+mongoose.connect("mongodb://heroku_0jnvsk8d:6mfl9e1qmk2dgakdqlh3jljhr2@ds111336.mlab.com:11336/heroku_0jnvsk8d",
 {
 	useMongoClient: true
 });
