@@ -1,5 +1,11 @@
 # mongodb-news
-This web app demonstrates web scarping and data storage using MongoDB, a noSQL style databae.
+This web app demonstrates web scraping and data storage using MongoDB, a noSQL style databae.
 ## Features
-* Hey there
-* How are you?
+* Scrape NPR for new articles that are not already in the database and display them on the screen with a link to the article.
+* Anonymous commenting system with sentiment analysis of each comment.
+## Technologies
+* Node, express, and handlebars
+* sentiment - npm
+* moMongoDB and Mongoose
+## Check it out!
+[Click here!](https://mongodbnews.herokuapp.com/)
