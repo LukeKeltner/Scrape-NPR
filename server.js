@@ -3,8 +3,7 @@ var exphbs = require("express-handlebars");
 var routes = require("./controllers/controller.js");
 var bodyParser = require("body-parser");
 
-
-var PORT = 3000;
+var port = process.env.PORT || 3000;
 var app = express();
 
 app.use(express.static("public"));
