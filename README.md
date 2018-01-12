@@ -6,6 +6,6 @@ This web app demonstrates web scraping and data storage using MongoDB, a noSQL s
 ## Technologies
 * Node, express, and handlebars
 * sentiment - npm
-* moMongoDB and Mongoose
+* MongoDB and Mongoose
 ## Check it out!
 [Click here!](https://mongodbnews.herokuapp.com/)
